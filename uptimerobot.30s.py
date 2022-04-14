@@ -13,11 +13,7 @@
 
 import requests
 import json
-import sys
 import os
-
-reload(sys)
-sys.setdefaultencoding('utf8')
 
 # Set your API Key here!
 # Get your API Key in https://uptimerobot.com/dashboard.php#mySettings
@@ -44,6 +40,8 @@ response = requests.request('POST', url, data=payload, headers=headers)
 data = json.loads(response.text)
 
 # Get monitors status count (up, total)
+
+
 def status_count(monitors):
     up = 0
     for monitor in monitors:
@@ -51,16 +49,18 @@ def status_count(monitors):
             up += 1
     return up, len(monitors)
 
+
 if data.get('monitors'):
-    print "%d / %d" % (status_count(data.get('monitors')))
-    print "---"
+    print("%d / %d" % (status_count(data.get('monitors'))))
+    print("---")
     for monitor in data.get('monitors'):
         st = status.get(monitor.get('status'))
-        print  "%s - %s | href='%s' color='%s'" % (st.get('text'),
-        monitor.get('friendly_name').encode('utf-8'), monitor.get('url'), st.get('color'))
+        print("%s - %s | href='%s' color='%s'" % (st.get('text'),
+              monitor.get('friendly_name'), monitor.get('url'), st.get('color')))
 else:
-    print "No monitor! | color='red'"
-    print "Click here to configure | href='file://%s'" % os.path.abspath('uptimerobot.30s.py')
+    print("No monitor! | color='red'")
+    print("Click here to configure | href='file://%s'" %
+          os.path.abspath('uptimerobot.30s.py'))
 
-print "---"
-print "Open UptimeRobot | href='https://uptimerobot.com/dashboard'" 
+print("---")
+print("Open UptimeRobot | href='https://uptimerobot.com/dashboard'")
